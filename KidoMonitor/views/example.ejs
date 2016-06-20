@@ -1,0 +1,70 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/stylesheets/example.css" type="text/css"/>
+
+
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBLs7IIRJrwh-FvSwbw_9bA6qY9qzi6BEY&sensor=false"></script>
+    <script src="/javascripts/map.js"></script>
+
+</head>
+<body onLoad="initialize()">
+
+    <%include templates/navigator.ejs%>
+
+    <div class="participation" style>
+        <div id="google_map" class="col-8"></div>
+        <h3 id="pointDistanceh">Distance to closest point: 12 m</h3>
+        <h3 id="personDistanceh">Distance to closest person: 7 m</h3>
+
+
+        <input onclick="clearMarkers();" type=button value="Hide Markers">
+        <input onclick="showMarkers();" type=button value="Show All Markers">
+        <input onclick="deleteMarkers();" type=button value="Delete Markers">
+        <input onclick="addMarkers(points,image2);" type=button value="Add Markers">
+        <button onclick="myFunction()">Try it</button>
+
+
+    </div>
+    <div class="col-4">
+        <div class="design-selection" id="design-selection">
+            <nav role="navigation">
+                <ul>
+                    <li>
+                        <form>
+                            X Coordonate:<br>
+                            <input type="number" name="X">
+                            <br>
+                            Y Coordonate:<br>
+                            <input type="number" name="Y">
+                        </form>
+                        <button class="button" type="button">Add point of interest</button>
+                    </li>
+                    <br>
+                    <li>
+                        <a href=".">
+                            <button class="button" type="button">Homepage</button>
+                        </a>
+                    </li>
+                    <br>
+                    <li>
+                        <a href="./nearby">
+                            <button class="button" type="button">View nearby children</button>
+                        </a>
+                    </li>
+                    <br>
+                    <li>
+                        <a href="./settings">
+                            <button class="button" type="button">Change settings</button>
+                        </a>
+
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    </aside>
+</body>
+
+</html>

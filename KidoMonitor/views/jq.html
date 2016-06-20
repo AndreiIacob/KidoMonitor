@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Getting Started With PubNub</title>
+</head>
+<body>
+<p id="loc"></p>
+<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script charset="utf-8">
+    (function(){
+
+        var PUBNUB_demo = PUBNUB.init({
+            publish_key: 'pub-c-3d4d491c-4c9c-48e6-acc1-58b18d9d484d',
+            subscribe_key: 'sub-c-f372af62-3687-11e6-9f5c-0619f8945a4f'
+        });
+
+        PUBNUB_demo.subscribe({
+            channel: 'Kid',
+            message: function(m){
+                document.getElementById("loc").innerHTML = m.text + '/n' + m.channel + '/n' + m.Latitude + m.Longitude;
+                var xmlHttp = new XMLHttpRequest();
+                var theUrl = "postit?text=abcd"; 
+                xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+                xmlHttp.send( null );
+                return xmlHttp.responseText;
+            },
+            connect : publish
+        });
+
+        function publish() {
+            PUBNUB_demo.publish({
+            });
+        }
+
+    })();
+</script>
+</body>
+</html>
