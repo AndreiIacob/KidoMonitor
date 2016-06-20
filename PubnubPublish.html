@@ -36,6 +36,7 @@
 	  var x;
 var y;
 var z;
+var channelName;
 var accident = 0;
         var PUBNUB_demo = PUBNUB.init({
           publish_key: 'pub-c-3d4d491c-4c9c-48e6-acc1-58b18d9d484d',
@@ -67,6 +68,7 @@ function showPosition(position) {
     Latitude= position.coords.latitude;
     Longitude= position.coords.longitude;
 }
+		channelName=document.getElementById("myText").value;
 		
         PUBNUB_demo.subscribe({
           channel: document.getElementById("myText").value,
@@ -78,6 +80,7 @@ function showPosition(position) {
           PUBNUB_demo.publish({
             channel: document.getElementById("myText").value,
             message: {"text":Latitude+","+Longitude,
+					  "channel":channelName,
 					  "Latitude":Latitude,
 					  "Longitude":Longitude,
 					  "x":x,
