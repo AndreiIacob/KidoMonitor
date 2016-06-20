@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <title>Getting Started With PubNub</title>
+  </head>
+  <body>
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+	<script src="NoSleep.js"></script>
+	Channel: <input type="text" id="myText" value="Kid">
+	<br>
+	<input type="button" id="toggle" value="Start" />
+
+
+    <script charset="utf-8">
+
+
+  
+  
+
+    var noSleep = new NoSleep();
+    var wakeLockEnabled = false;
+	var toggleEl = document.querySelector("#toggle");
+    toggleEl.addEventListener('click', function() {
+      if (!wakeLockEnabled) {
+        noSleep.enable(); // keep the screen on!
+        wakeLockEnabled = true;
+        //toggleEl.value = "Wake Lock Enabled";
+      } else {
+        noSleep.disable(); // let the screen turn off.
+        wakeLockEnabled = false;
+        //toggleEl.value = "Wake Lock Disabled";
+      }
+    
+
+
+
+	  var x;
+var y;
+var z;
+var accident = 0;
+        var PUBNUB_demo = PUBNUB.init({
+          publish_key: 'pub-c-3d4d491c-4c9c-48e6-acc1-58b18d9d484d',
+          subscribe_key: 'sub-c-f372af62-3687-11e6-9f5c-0619f8945a4f'
+        });
+		
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+			  window.addEventListener("devicemotion", function(event) {
+		x=event.acceleration.x;
+		y=event.acceleration.y;
+		z=event.acceleration.z;
+		if(Math.sqrt(Math.sqrt(x*x+y*y)+z*z)>25)
+		{
+		accident = 1;
+		}
+          // Process event.acceleration, event.accelerationIncludingGravity,
+          // event.rotationRate and event.interval
+      }, true);
+    } 
+
+
+var Latitude;
+var Longitude;
+var Accuracy;
+
+
+function showPosition(position) {
+    Latitude= position.coords.latitude;
+    Longitude= position.coords.longitude;
+}
+		
+        PUBNUB_demo.subscribe({
+          channel: document.getElementById("myText").value,
+          message: function(m){},
+          connect : publish
+        });
+        
+        function publish() {
+          PUBNUB_demo.publish({
+            channel: document.getElementById("myText").value,
+            message: {"text":Latitude+","+Longitude,
+					  "Latitude":Latitude,
+					  "Longitude":Longitude,
+					  "x":x,
+					  "y":y,
+					  "z":z,
+					  "accident":accident}
+          });
+		      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } 
+	var accident = 0;
+		  setTimeout(function(){ publish(); }, 3000);
+        }
+	  }, false);
+    </script>
+  </body>
+</html>
