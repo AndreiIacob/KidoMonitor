@@ -2,6 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<link rel="stylesheet" href="examplestyle.css" type="text/css" />
+	<script>
+	function addSensor()
+	{
+	      var thirtyDays = 1000*60*60*24*30;
+      var expires = new Date((new Date()).valueOf() + thirtyDays);
+       document.cookie = document.cookie+document.getElementById("sensorData")+";path=/;expires=" + expires.toUTCString();
+	}
+	</script>
 </head>
 <body>
 	<div class="participation">
@@ -9,7 +17,7 @@
 					<ul>
 						<form>
 				Sensor data:<br>
-				<input type="text" name="sensor">
+				<input type="text" id="sensorData" name="sensor">
 				<br>
 				Person name:<br>
 				<input type="text" name="person">
@@ -21,7 +29,7 @@
 				<input type="date" name="type">
 				<br>
 				<br>
-				<button class="button" type="button" >Add sensor</button>
+				<button class="button" onclick="addSensor();" type="button" >Add sensor</button>
 			</form>
 	</div>
 		<div class="wrapper">

@@ -73,6 +73,7 @@
 	
 	  var loc = [54.19365, 16.1779];
 	  var markerPeople = [];
+	  var notified = false; 
 	  var acceptableDistance = 100;
 	  var mapCenter = new google.maps.LatLng(loc[0], loc[1]); //Google map Coordinates //Google map Coordinates
       var map;
@@ -143,6 +144,8 @@
 		  notifyMe2();
 		  }
 		  }
+		  else
+		  {distancePerson();}
 		addMarkers(points,image2); 
         markerChild = new google.maps.Marker({
             position: {lat:  parseFloat(loc[0]), lng:  parseFloat(loc[1])},
@@ -351,6 +354,10 @@ function notifyMe() {
 }
 
 function notifyMe2() {
+if(notified === false)
+{
+notified = true;
+setTimeout(function(){notified = false;},30000);
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
@@ -382,9 +389,7 @@ function notifyMe2() {
 
   // At last, if the user has denied notifications, and you 
   // want to be respectful there is no need to bother them any more.
-}Notification.requestPermission().then(function(result) {
-  console.log(result);
-});
+}}
 
 //gets value of cookie acording to name;
 function getCookie(cname) {
@@ -448,6 +453,8 @@ function getCookie(cname) {
 		  notifyMe2();
 		  }
 		  }
+		  else
+		  {distancePerson();}
 			}	  
 			if(m.channel==="Kid")	
 		  {
@@ -468,6 +475,8 @@ function getCookie(cname) {
 		  notifyMe2();
 		  }
 		  }
+		  		  else
+		  {distancePerson();}
 		  }
 
 		  },
@@ -510,7 +519,7 @@ function myFunction() {
       <input onclick="showMarkers();" type=button value="Show All Markers">
       <input onclick="deleteMarkers();" type=button value="Delete Markers">
 	  <input onclick="addMarkers(points,image2);" type=button value="Add Markers">
-	  <button onclick="myFunction()">Try it</button>
+	  <button onclick="notifyMe2();">Try it</button>
 	  
 	  
 	  
