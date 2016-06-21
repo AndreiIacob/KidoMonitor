@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+<p id="demo2"></p>
+
+<script>
+
+var x = document.getElementById("demo");
+var acx;
+var acy;
+var acz;
+var accident = 0;
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+	  window.addEventListener("devicemotion", function(event) {
+	  var y = document.getElementById("demo2");
+	  		acx=event.acceleration.x;
+		acy=event.acceleration.y;
+		acz=event.acceleration.z;
+	      y.innerHTML = "x: " + event.acceleration.x +
+        "<br>y: " + event.acceleration.y +
+	    "<br>z: " + event.acceleration.z +
+		"<br>accident: " + accident+
+		"<br>acceleration: " + Math.sqrt(acx*acx+acy*acy+acz*acz);
+		if(Math.sqrt(acx*acx+acy*acy+acz*acz)>10)
+		{
+		accident = 1;
+		}
+          // Process event.acceleration, event.accelerationIncludingGravity,
+          // event.rotationRate and event.interval
+      }, true);
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+
+}
+</script>
+
+</body>
+</html>

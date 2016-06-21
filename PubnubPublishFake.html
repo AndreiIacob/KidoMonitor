@@ -48,33 +48,34 @@ var accident = 0;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
 			  window.addEventListener("devicemotion", function(event) {
-		x=event.acceleration.x;
-		y=event.acceleration.y;
-		z=event.acceleration.z;
-		document.getElementById("demo2").innerHTML = "x: " + event.acceleration.x +
-        "<br>y: " + event.acceleration.y +
-	    "<br>z: " + event.acceleration.z +
-		"<br>accident: " + accident;
+		x=Math.random()*5;
+		y=Math.random()*5;
+		z=Math.random()*5;
 		if(Math.sqrt(x*x+y*y+z*z)>10)
 		{
 		accident = 1;
 		}
+		document.getElementById("demo2").innerHTML = "x: " + x +
+        "<br>y: " + y +
+	    "<br>z: " + z +
+		"<br>accident: " + accident;
+
           // Process event.acceleration, event.accelerationIncludingGravity,
           // event.rotationRate and event.interval
       }, true);
     } 
 
 
-var Latitude;
-var Longitude;
+var Latitude=Math.random()*170-85;
+var Longitude=Math.random()*360-180;
 var Accuracy;
 var init = false;
 
 function showPosition(position) {
-    Latitude= position.coords.latitude;
-    Longitude= position.coords.longitude;
-	document.getElementById("demo").innerHTML = "Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude;
+    Latitude= Latitude + Math.random()*0.1-0.05;
+    Longitude= Longitude + Math.random()*0.2-0.1;
+	document.getElementById("demo").innerHTML = "Latitude: " + Latitude +
+    "<br>Longitude: " + Longitude;
 }
 		channelName=document.getElementById("myText").value;
 		
