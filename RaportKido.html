@@ -91,74 +91,13 @@
 								Homepage
 							</h3>
 							<p>
-							Pe Homepage ȋn stânga ,dacă utilizatorul este logat și au fost setați senzorii ce redau poziția copilului, se va afișa poziția copilului sau copiilor prin Google Maps ȋmpreună cu punctele specificate de utilizator ȋmpreună cu distanța copilului cel mai ȋndepărtat de ele și locația persoanelor specificate ȋmpreună cu distanța copilului cel mai ȋndepărtat de ele, altfel dacă nu sunt setați senzorii afișează un mesaj ce cere utilizatorului să ȋi seteze iar dacă nu este logat se cere logarea sau ȋnscrierea utilizatorului. În dreapta opțiuni de schimbare a setărilor, de adăugare a altor puncte și vizualizarea altor copii din apropiere, aceast meniu va fi păstrat pe toate paginile.
-							</p>
-							<p>
-							În dreapta se vor afișa butoane ce redirecționează spre pagina de schimbare a setărilor și de vizualizare a altor copii din apropiere ȋmpreună cu un formolar și buton pentru adăugarea altor puncte , aceast meniu va fi păstrat pe toate paginile.
+							Pe Homepage ȋn stânga ,dacă au fost setați senzorii ce redau poziția copilului,
+							se va afișa poziția copilului sau copiilor prin Google Maps ȋmpreună cu punctele specificate de utilizator 
+							ȋmpreună cu distanța copilului cel mai ȋndepărtat de ele și locația persoanelor specificate ȋmpreună 
+							cu distanța copilului de cel mai apropiat punct.
+							În dreapta opțiuni de schimbare a setărilor, de adăugare a altor puncte.
 							</p>
 						<img src="Homepage.png">
-						</section>
-					</li>
-										<li>
-						<section typeof="sa:Abstract">
-							<h3 class="page">
-								Login
-							</h3>
-							<p>
-							Pe pagina de login apare un form unde se poate ȋnscrie E-mail-ul și parola pentru logare și un buton pentru redirecționare spre pagina de signup. 
-							</p>
-							<img src="Login.png">
-						</section>
-					</li>
-					<li>
-						<section typeof="sa:Abstract">
-							<h3 class="page">
-								Sign-up
-							</h3>
-							<p>
-							Această pagina prezintă formularul de ȋnregistrare pe site. Utilizatorul va trebui să furnizeze urmatoarele informații :
-								<ul>
-									<li>
-										E-mail
-									</li>
-									<li>
-										Nume
-									</li>
-									<li>
-										Prenume
-									</li>
-									<li>
-										Parolă
-									</li>
-									<li>
-										Confirmarea Parolei
-									</li>
-								</ul>
-						Dacă datele au fost introduse corect apăsând pe butonul de ȋnregistrare, contul utilizatorului este creat și acesta este redirecționat la pagina de setare a senzorilor.							</p>
-						<img src="Signup.png">
-						</section>
-					</li>					
-					<li>
-						<section typeof="sa:Abstract">
-							<h3 class="page">
-								Settings 
-							</h3>
-							<p>
-							Pe pagina de setări se vor afișa formulare pentru inroducerea datelor necesare setării senzorilor și date despre cine detectează acești senzori (Nume, tip: copil sau adult) și schimbarea numărului de metri necesari declanșării unei notificări, va fi setat default pe 150.							
-							</p>
-							<img src="Settings.png">
-						</section>
-					</li>
-					
-					<li>
-						<section typeof="sa:Abstract">
-							<h3 class="page">
-								Nerby children
-							</h3>
-							<p>
-							Pagina afişează o hartă cu copii la distanţă de 100 de metri sau mai puţin de copilul vizualizat.
-							</p>
-							<img src="Nerby children.png">
 						</section>
 					</li>
 				</ol>
@@ -167,37 +106,21 @@
 <h1>Detalii de implementare</h1>
 	<h3>Modelarea datelor</h3>
 	<p>
-	Pentru stocarea datelor se va utiliza baza de date Oracle structurată în felul următor:
-	<ul>
-		<li>
-		Un tabel denumit <em>Persoane</em> ce va conţine date despre persoane precum nume, prenume, data naşterii şi un id unic alocat la indroducera sa în baza de date.		
-		</li>
-		<li>
-		Un tabel denumit <em>Senzori</em> ce va conţine date despre senzori şi id-ul persoanelor ataşate senzorilor, fiecare senzor va primi un id unic alocat la indroducera sa în baza de date.		
-		</li>
-		<li>
-		Un tabel denumit <em>Utilizatori</em> ce va conţine date despre utilizator: nume, prenume e-mail, parolă şi un id unic alocat la crearea utilizatorului. 
-		</li>
-		<li>
-		Un tabel <em>Alocare</em> ce face legătura dintre Utilizatori şi Senzori, conţine id senzor şi id utilizator.		
-		</li>
-	</ul>
+	Datele sunt stocate local prin matrici şi json-uri.
 	</p>
 	<h1>Use case-uri</h1>
 			<p>
-			La intrarea în site se vor accesa cookie-uri şi dacă se obţine date pentru email şi parolă care corespund celor din baza de date se logează utilizatorul şi se redirecţionează spre Homepage altfel spre pagina de Login.			</p>
-			<p>
-			La signup se verifică dacă existe câmpuri necompletate şi dacă parolele se potrivesc, dacă există câmpuri necompletate sau parolele nu se potrivesc se afişează un mesaj sau mesaje de eroare, altfel datele sunt verificate să nu fie introdusă deja în baza de date adresa de email, dacă este deja în baza de date se afişează un mesaj de eroare altfel se generează un id pentru utilizator şi se introduc datele acestuia în baza de date. 			
-			</p>
-			<p>
-			La cererea copiilor din jur verifică baza de date pentru copii din jur şi îi adaugă pe hartă pe cei ce sunt îndeajuns de aproape apoi afişează harta.			
+					
 			</p>
 			<p>
 			Verificarea poziţiei copilului/copiilor se face prin accesarea Homeage-ului, unde se preiau datele despre setările senzorului se folosesc funcţiile din Geolocalizare şi Google Maps pentru a afişa o hartă cu poziţia copilului/copiilor şi poziţiile punctelor şi persoanele specificate de utilizator.
 			</p>
-						<p>
-						Adăugarea unui nou punct se face prin completarea formularului de pe panoul din dreapta.
-									</p>
+			<p>
+			Adăugarea punctelor se face prin forumul drin dreapta iar punctele sunt afişate instantaneu.
+			</p>
+			<p>
+			Senzorii pentru alte persoane trebuie introduse întâi apoi se activează senzorii. 
+			</p>
 			</section>
 <section typeof="sa:MaterialsAndMethods" id="sarcini">
 <h1>Distribuire Sarcini</h1>
@@ -205,22 +128,19 @@
 	<li>
 		Iacob Andrei
 		<ul>
-		<li>Baza de date</li>
-		<li>Find kids</li>
-		<li>Settings</li>
+		<li>Set senzor</li>
 		<li>Geolocationation</li>
-		<li>CSS</li>
+		<li>Notifications</li>
+		<li>Screen Orientation</li>
 		</ul>
 	</li>
 	<li>
 	Moisii Cosmin
 		<ul>
-		<li>Signup</li>
-		<li>Login</li>
-		<li>Set senzor</li>
-		<li>Notifications</li>
-		<li>Screen Orientation</li>
-		<li>Google Maps</li>
+		<li>Node.js</li>
+		<li>Server http</li>
+		<li>Responsive design</li>
+		<li>CSS</li>
 		</ul>
 	</li>
 </ol>
@@ -234,7 +154,6 @@
 			<ul>
 				<li>familiarizarea cu framework-ul JavaScript</li>
 				<li>scheletul principal al aplicatiei</li>
-				<li>primele module: login si signup</li>
 			</ul>
 		</li>
 		<li>
@@ -256,7 +175,7 @@
 		<li>
 		Saptamana 13
 			<ul>
-					<li>implementarea bazei de date</li>
+					<li>eşuarea implementării bazei de date</li>
 			</ul>
 
 		</li>
@@ -266,6 +185,15 @@
 					<li>foi de stiluri</li>
 					<li>responsiveness</li>
 					<li>testare</li>
+			</ul>
+
+		</li>
+				<li>
+		Saptamana 15
+			<ul>
+					<li>integrare</li>
+					<li>testare</li>
+					<li>documentaţie</li>
 			</ul>
 
 		</li>

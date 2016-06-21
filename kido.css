@@ -1,0 +1,198 @@
+
+
+@import url(http://fonts.googleapis.com/css?family=Julius+Sans+One|Libre+Baskerville:400,400italic);
+
+/* base CSS */
+* {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#google_map {width: 50vw;  height: 30vw;}
+
+html, body {
+		background-color: rgba(138,188,159,0.5);
+  padding: 0;
+  margin: 0;
+}
+body {
+  color: #325050;
+  background: #fff;
+  font-family: 'Libre Baskerville', sans-serif;
+  font-size: 70%;
+}
+
+h3 {
+  margin: 2em 0 0 0;
+  color: #2e484c;
+  font-size: 1.8em;
+}
+p {
+  margin: 0.75em 0;
+  line-height: 2;
+}
+
+
+div.participation {
+	height:100%;
+  background-attachment: scroll, scroll, fixed;
+  background-color: rgba(138,188,159,0.5);
+  background-image: url(contours-opaque.png), url(gridlines-opaque.png), url(bamboo.png);
+  background-repeat: repeat, repeat, no-repeat;
+  background-size: auto, auto, cover;
+  padding: 3em 0;
+  margin-top: 3em;
+}
+
+div.participation h3 {
+  margin-top: 0;
+}
+div.participation p{
+  margin-bottom: 0;
+}
+
+
+/* sidebar base styles */
+.sidebar {
+  background: #edf4f0;
+}
+
+
+
+
+
+.design-selection a {
+  display: block;
+  margin-bottom: 0.25em;
+  font-family: 'Julius Sans One', sans-serif;
+  font-size: 1.2em;
+}
+
+.design-selection {
+  color: #616857;
+  font-size: 0.9em;
+  font-style: normal;
+}
+
+
+/* high-res CSS */
+@media only screen and (min-width: 1132px) {
+  body {
+	background-color: rgba(138,188,159,0.5);
+    background: -moz-linear-gradient(left,  #ffffff 0%, #ffffff 66%, #e5ede8 66%, #e5ede8 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(66%,#ffffff), color-stop(66%,#e5ede8), color-stop(100%,#e5ede8));
+    background: -webkit-linear-gradient(left,  #ffffff 0%,#ffffff 66%,#e5ede8 66%,#e5ede8 100%);
+    background: -o-linear-gradient(left,  #ffffff 0%,#ffffff 66%,#e5ede8 66%,#e5ede8 100%);
+    background: -ms-linear-gradient(left,  #ffffff 0%,#ffffff 66%,#e5ede8 66%,#e5ede8 100%);
+    background: linear-gradient(to right,  #ffffff 0%,#ffffff 66%,#e5ede8 66%,#e5ede8 100%);
+    font-size: 100%;
+  }
+
+  p {
+    font-size: 1em;
+  }
+
+  /* main layout blocks */
+  nav {
+    display: inline;
+  }
+
+
+  /* coloured cutoff */
+  div.participation {
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 38%;
+    margin: 0;
+    padding-top: 4em;
+  }
+
+
+
+  /* sidebar styling */
+  .design-selection{
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 33.3%;
+    padding: 0 0 20px 0;
+    margin: 0;
+    overflow: visible;
+    background: transparent;
+  }
+
+
+
+
+
+
+@-webkit-keyframes koan {
+    from {
+      -webkit-transform: scale(1);
+    opacity: 1;
+    }
+    to {
+      -webkit-transform: scale(3);
+    opacity: 0;
+    }
+}
+@-moz-keyframes koan {
+    from {
+      -moz-transform: scale(1);
+    opacity: 1;
+    }
+    to {
+      -moz-transform: scale(3);
+    opacity: 0;
+    }
+}
+@keyframes koan {
+    from {
+      transform: scale(1);
+    opacity: 1;
+    }
+    to {
+      transform: scale(3);
+    opacity: 0;
+    }
+}
+
+
+
+/* icon fonts */
+@font-face {
+	font-family: 'verdemoderna';
+	src:url('verdemoderna.eot');
+	src:url('verdemoderna.eot?#iefix') format('embedded-opentype'),
+		url('verdemoderna.woff') format('woff'),
+		url('verdemoderna.ttf') format('truetype'),
+		url('verdemoderna.svg#verdemoderna') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}     
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	border-radius: 50%;
+}
+
+input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+}
+
+                                                                                                       /* 1000 lines?! */

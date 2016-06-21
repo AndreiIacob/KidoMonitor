@@ -1,0 +1,515 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="kido.css" type="text/css" />
+    <script 
+     src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBLs7IIRJrwh-FvSwbw_9bA6qY9qzi6BEY&sensor=false">
+    </script>
+	<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+    <script type="text/javascript">
+	
+	  var loc = [54, 16];
+	  var markerPeople = [];
+	  var notified = false; 
+	  var sensors=[];
+	  var acceptableDistance = 100;
+	  var mapCenter = new google.maps.LatLng(loc[0], loc[1]); //Google map Coordinates //Google map Coordinates
+      var map;
+	  var markers = [];
+	  var images = [];
+        var image = {
+          url: 'Child icon.png',
+          size: new google.maps.Size(24, 24),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 24)
+        };
+		images.push(image);
+		        var image2 = {
+          url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+          // This marker is 20 pixels wide by 32 pixels high.
+          size: new google.maps.Size(20, 32),
+          // The origin for this image is (0, 0).
+          origin: new google.maps.Point(0, 0),
+          // The anchor for this image is the base of the flagpole at (0, 32).
+          anchor: new google.maps.Point(0, 32)
+        };
+		images.push(image2);
+						 var image3 = {
+          url: 'Person icon.png',
+          size: new google.maps.Size(24, 24),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 24)
+        };
+		images.push(image3);
+        // Shapes define the clickable region of the icon. The type defines an HTML
+        // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+        // The final coordinate closes the poly by connecting to the first coordinate.
+        var shape = {
+          coords: [1, 1, 1, 23, 18, 23, 18, 1],
+          type: 'poly'
+        };
+		
+		      var points = [
+        ['Name1', 54.0005, 16.0005],
+        ['Name2',54.19295, 16.1779],
+        ['Name3', 54.19315, 16.1819, 3],
+        ['Name4', -33.80010128657071, 151.28747820854187, 2],
+      ];
+	points.push(['Name5', -38.950198, 151.259302, 1]);
+		var markerChild ;
+      function initialize() //function initializes Google map
+      {
+        var googleMapOptions =
+        {
+            center: mapCenter, // map center
+            zoom: 15, //zoom level, 0 = earth view to higher value
+            panControl: true, //enable pan Control
+            zoomControl: true, //enable zoom control
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL //zoom control size
+             },
+            scaleControl: true, // enable scale control
+            mapTypeId: google.maps.MapTypeId.ROADMAP // google map type
+        };
+        map = new google.maps.Map(document.getElementById("google_map"), googleMapOptions);
+		google.maps.event.trigger(map, 'resize');
+		var dist = distancePoint();
+		  if(dist>acceptableDistance && dist!==(-1))
+		  {
+		  dist = distancePerson();
+		  if(dist>acceptableDistance && dist!==(-1))
+		  {
+		  notifyMe2();
+		  }
+		  }
+		  else
+		  {distancePerson();}
+		addMarkers(points,image2); 
+        markerChild = new google.maps.Marker({
+            position: {lat:  parseFloat(loc[0]), lng:  parseFloat(loc[1])},
+            map: map,
+            icon: image,
+            shape: shape,
+            title: 'Kid',
+            zIndex: 99
+          });
+      }
+	  
+	  var rad = function(x) {
+  return x * Math.PI / 180;
+};
+
+function addSensor ()
+{
+ sensors.push(document.getElementById('Sensor').value);
+}
+
+function getDistance (p1, p2) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2[0] - p1[0]);
+  var dLong = rad(p2[1] - p1[1]);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1[0])) * Math.cos(rad(p2[0])) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d; // returns the distance in meter
+
+};
+
+
+
+
+
+	  
+//add markers to the positions in points to compare distance to
+      function addMarkers(points,imag) {
+        for (var i = 0; i < points.length; i++) {
+          var point = points[i];
+          var marker = new google.maps.Marker({
+            position: {lat: point[1], lng: point[2]},
+            map: map,
+            icon: imag,
+            shape: shape,
+            title: point[0],
+            zIndex: point[3]
+          });
+		  markers.push(marker);
+        }
+		distancePoint();
+      }
+//adds marker through user imput
+	        function addMarker() {
+
+		  var point = ['point', parseFloat(document.getElementById('xcoord').value) , parseFloat(document.getElementById('ycoord').value) , 5];
+          points.push(point);
+		  var marker = new google.maps.Marker({
+            position: {lat: point[1], lng: point[2]},
+            map: map,
+            icon: image2,
+            shape: shape,
+            title: point[0],
+            zIndex: point[3]
+          });
+		  markers.push(marker);
+		  distancePoint();
+
+
+      }
+	  
+	  
+	  function changeMarkerPosition(marker,newPosition) {
+    var latlng = new google.maps.LatLng(newPosition[0], newPosition[1]);
+    marker.setPosition(latlng);
+}
+      // Sets the map on all markers in the array.
+      function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+
+      // Shows any markers currently in the array.
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
+//calculates and displays shortest distance from points
+function distancePoint() {
+
+    var str1 = "Distance to closest point: ";
+	document.getElementById("pointDistanceh").innerHTML = str1;
+	if (points.length>0)
+	{
+    document.getElementById("pointDistanceh").innerHTML = 22;
+	var point = points[0];
+	var latLng = [point[1], point[2]];
+	var distance =	getDistance(latLng,loc);
+	var minDistance = distance;
+	for (var i = 1; i < points.length; i++) {
+    point = points[i];
+	latLng = [point[1], point[2]];
+	distance = getDistance(latLng,loc);
+	if(distance<minDistance)
+	{
+	minDistance=distance;
+	}
+		}
+	var result = Math.trunc(minDistance); 
+    var res = str1.concat(result);
+	var res = res.concat("m");
+    document.getElementById("pointDistanceh").innerHTML = res;
+	if(result>acceptableDistance)
+	{
+	notifyMe2();
+	}
+	return result;
+	
+	}
+	else
+	{
+	    document.getElementById("pointDistanceh").innerHTML = "No points set";
+		return -1;
+	}
+
+}
+
+//calculates and displays shortest distance from persons
+function distancePerson() {
+
+    var str1 = "Distance to closest person: ";
+	document.getElementById("personDistanceh").innerHTML = str1;
+	if (markerPeople.length>0)
+	{
+	var point = [ parseFloat(markerPeople[0][1].getPosition().lat()) , parseFloat(markerPeople[0][1].getPosition().lng())];
+	var latLng = [point[0], point[1]];
+	var distance =	getDistance(latLng,loc);
+	var minDistance = distance;
+	for (var i = 1; i < markerPeople.length; i++) {
+	point = [ parseFloat(markerPeople[i][1].getPosition().lat()) , parseFloat(markerPeople[i][1].getPosition().lng())];
+	latLng = [point[0], point[1]];
+	distance = getDistance(latLng,loc);
+	if(distance<minDistance)
+	{
+	minDistance=distance;
+	}
+		}
+	var result = Math.trunc(minDistance); 
+    var res = str1.concat(result);
+	var res = res.concat("m");
+    document.getElementById("personDistanceh").innerHTML = res;
+	return result;
+	}
+	else
+	{
+	    document.getElementById("personDistanceh").innerHTML = "No persons set";
+		return -1;
+	}
+
+}
+
+
+function notifyMe() {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+          var options = {
+      body: "Latitude: "+loc[0]+", Longitude: "+loc[1],
+      icon: 'https://cdn3.iconfinder.com/data/icons/risk-insurance-thick-version/33/accident-128.png'
+  }
+  var n = new Notification("Accident!",options);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+          var options = {
+      body: "Latitude: "+loc[0]+", Longitude: "+loc[1],
+      icon: 'https://cdn3.iconfinder.com/data/icons/risk-insurance-thick-version/33/accident-128.png'
+  }
+  var n = new Notification("Accident!",options);
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you 
+  // want to be respectful there is no need to bother them any more.
+}Notification.requestPermission().then(function(result) {
+  console.log(result);
+});function spawnNotification(theBody,theIcon,theTitle) {
+  var options = {
+      body: theBody,
+      icon: theIcon
+  }
+  var n = new Notification(theTitle,options);
+}
+
+function notifyMe2() {
+if(notified === false)
+{
+notified = true;
+setTimeout(function(){notified = false;},30000);
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+          var options = {
+      body: "Latitude: "+loc[0]+", Longitude: "+loc[1],
+      icon: 'http://kids.nationalgeographic.com/etc/designs/kids/clientlibs/images/animal-profile/Stats-ChildWalkingIcon.png'
+  }
+  var n = new Notification("Too far from safe zone!",options);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+          var options = {
+      body: "Latitude: "+loc[0]+", Longitude: "+loc[1],
+      icon: 'http://kids.nationalgeographic.com/etc/designs/kids/clientlibs/images/animal-profile/Stats-ChildWalkingIcon.png'
+  }
+  var n = new Notification("Too far from safe zone!",options);
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you 
+  // want to be respectful there is no need to bother them any more.
+}}
+
+//gets value of cookie acording to name;
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return "";
+}
+
+
+
+      (function(){
+    
+        var PUBNUB_demo = PUBNUB.init({
+          publish_key: 'pub-c-3d4d491c-4c9c-48e6-acc1-58b18d9d484d',
+          subscribe_key: 'sub-c-f372af62-3687-11e6-9f5c-0619f8945a4f'
+        });
+        //subscribe to sensor channel
+        PUBNUB_demo.subscribe({
+          channel: 'main',
+          message: function(m){
+		  var ok=false;
+		  		  for (var i = 0; i < sensors.length; i++)
+		  {
+		  if(sensors[i]===m.channel)
+		  {
+		  ok = true;
+		  }
+		  }
+		  if(getCookie(m.channel)!=="" || ok===true)	
+		  {
+		  var marker = new google.maps.Marker({
+            position: {lat: m.Latitude,  lng: m.Longitude},
+            map: map,
+            icon: image3,
+            shape: shape,
+            title: m.channel,
+            zIndex: 3
+          });
+		  markerPeople.push([m.channel,marker]);
+		  }
+
+		  if(m.channel==="Kid" || getCookie(m.channel)!=="" || ok === true)
+			{		  
+		  PUBNUB_demo.subscribe({
+          channel: m.channel,
+          message: function(m){
+		  var ok = false;
+		  		  for (var i = 0; i < sensors.length; i++)
+		  {
+		  if(sensors[i]===m.channel)
+		  {
+		  ok = true;
+		  }
+		  }
+			if(getCookie(m.channel)!==""  || ok === true )	
+			{
+			for (var i = 0; i < markerPeople.length; i++) 
+			if(markerPeople[i][0]===m.channel)
+			{
+			changeMarkerPosition(markerPeople[i][1],[m.Latitude,m.Longitude]);
+			}
+		  var dist = distancePerson();
+		  if(dist>acceptableDistance && dist!==(-1))
+		  {
+		  notifyMe2();
+		  }
+		  else
+		  {
+		  distancePerson();}
+			}	  
+			if(m.channel==="Kid")	
+		  {
+		  loc[0]=m.Latitude;
+		  loc[1]=m.Longitude;
+		  if(m.accident === 1)
+		  {
+		  notifyMe();
+		  }
+		  changeMarkerPosition(markerChild,[m.Latitude,m.Longitude]);
+		  map.setCenter(new google.maps.LatLng(m.Latitude, m.Longitude));
+		  		  var dist = distancePoint();
+		  if(dist>acceptableDistance && dist!==(-1))
+		  {
+		  dist = distancePerson();
+		  if(dist>acceptableDistance && dist!==(-1))
+		  {
+		  notifyMe2();
+		  }
+		  }
+		  		  else
+		  {distancePerson();}
+		  }
+
+		  },
+          connect : publish
+        });
+		}
+		},
+          connect : publish
+        });
+        
+        function publish() {
+          PUBNUB_demo.publish({
+          });
+        }
+        
+      })();
+
+var i =0;
+function Hello(){ document.getElementById("pointDistanceh").innerHTML = i;
+i++; }
+function myFunction() {
+    setInterval(distancePoint, 3000);
+	setTimeout(function() { 	loc[0]=loc[0]+1; }, 5000);
+
+}
+	setTimeout(function() {}, 100);
+
+</script>
+</head>
+<body onLoad="initialize()" >
+
+	<div class="participation" style>
+			<div id="google_map" class="single_map_canvas" ></div>
+			<h3 id= "pointDistanceh" >Distance to closest point: 12 m</h3>
+			<h3 id= "personDistanceh">Distance to closest person: 7 m</h3>
+			
+			
+			
+			      <input onclick="clearMarkers();" type=button value="Hide Markers">
+      <input onclick="showMarkers();" type=button value="Show All Markers">
+      <input onclick="deleteMarkers();" type=button value="Delete Markers">
+	  <input onclick="addMarkers(points,image2);" type=button value="Add Markers">
+	  <button onclick="notifyMe2();">Try it</button>
+	  
+	  
+	  
+	</div>
+		<div class="wrapper" >
+			<div class="design-selection" id="design-selection">
+				<nav role="navigation">
+					<ul>
+					<li>
+						<form>
+				X Coordonate:<br>
+				<input id="xcoord" type="number" name="X">
+				<br>
+				Y Coordonate:<br>
+				<input id="ycoord" type="number" name="Y">
+			</form>
+			<button onclick="addMarker();"  class="button" type="button" >Add point of interest</button>
+			</li><br>
+				 Sensor channel:
+				<input  id="Sensor" type="text" name="Y">
+				<br>
+			   <button onclick="addSensor();"  class="button" type="button" >Add Sensor</button>
+
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</aside>
+</body>
+
+</html>
