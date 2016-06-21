@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+	<meta name="keywords" content="HTML,CSS,project,infoiasi,web">
+    <title>Kido (Kid Monitor)</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
+    <header>
+      <p class="title">Kido</p>
+      <p class="subtitle">Kid Monitor</p>
+    </header>
+    <article id="what" typeof="schema:ScholarlyArticle" resource="#">
+	<h1>Kido</h1>
+<section>
+				<ol>
+					<li property="schema:author" typeof="sa:ContributorRole">
+						<a property="schema:author" href="https://www.facebook.com/iacob.andrei" typeof="schema:Person">
+							<span property="schema:familyName">Iacob</span>
+							<span property="schema:givenName">Andrei-Constantin</span>
+						</a>
+					</li>
+					<li property="schema:author" typeof="sa:ContributorRole">
+						<a property="schema:author" href="https://www.facebook.com/cosmin.moisii" typeof="schema:Person">
+							<span property="schema:familyName">Moisii</span>
+							<span property="schema:givenName">Cosmin</span>
+						</a>
+					</li>
+				</ol>
+</section>
+
+ <section typeof="sa:Abstract" id="introducere">
+
+         <p>
+		Kido permite monitorizarea copiilor ȋn timp real și notificarea utilizatorului la evenimente de interes, bazat pe setările sale, precum avertizarea in caz de comportament neobisnuit al acceleromerului. Informațiile ce stau la baza aplicației se obțin prin senzori de geolocalizare. Kido asigură părinții că micutii lor nu au părăsit siguranța casei, permițându-le acestora sa se relaxeze din aceasta privinta. 		
+		</p>
+        <p>
+		Sistemul Web permite monitorizarea unuia sau mai multor copii, bazat pe distanța acestuia sau acestora față de unul sau mai multe puncte specificate de utilizator sau coordonatele unor persoane specificate. Distanța este specificată de utilizator. Utilizatorul va trebui să seteze senzorii pentru copii și persoanelor detectabile de aplicație.		</p>
+        </p>
+
+ </section>
+
+<section typeof="sa:MaterialsAndMethods" id="tehnologii">
+        <h1>Tehnologii folosite</h1>
+     	<p>În implementarea aplicației a fost create special un api pentru transmiterea informatiilor senzorilor telefonului dar si un api ce emuleaza aceste date. Am folosit api-urile pentru notificări și hărți oferite de Google. Acestea se vor folosi ȋmpreună cu JavaScript, ca limbaj de progamare,, Node.js, platforma Express și ca zona de date am folosit un fisier json.     	</p>
+		<h3>JavaScript</h3>
+		<p>
+		JavaScript (JS) este un limbaj de programare orientat obiect bazat pe conceptul prototipurilor. Este folosit mai ales pentru introducerea unor funcționalități în paginile web, codul Javascript din aceste pagini fiind rulat de către browser. 
+		Cea mai des întâlnită utilizare a JavaScript este în scriptarea paginilor web. Programatorii web pot îngloba în paginile HTML script-uri pentru diverse activități cum ar fi verificarea datelor introduse de utilizatori sau crearea de meniuri și alte efecte animate. Vom folosi JavaScript pentru ferestre de tip popup,slideshows si pentru a accesa serviciile oferite de platformele pe care le integram. Aceste platforme ne pun la dispozitie  diverse API-uri (Application Programming Interface) , pe care le vom folosi pentru a integra continutul deja existent pe platformele mentionate,in aplicatia noastra.
+		</p>
+		<a href="https://www.w3.org/TR/geolocation-API/"><h4 class="API"> Geolocation API</h4></a>
+		<p>
+		API-ul Geolocation definește o interfață de nivel ȋnalt pentru informații despre locație asociate cu dispozitivul unde se află implementarea, precum latitudinea și longitudinea. API n cunoaște de unde vin aceste informații. Surse comune includ Sistemul de localizare globală (GPS) și locația dedusă din semnale de rețea precum adresa IP, RFID, WiFi și adresele MAC prin Bluetooth, și ID-urile GSM/CDMA ale telefonului, precum și input-ul utilizatorului. API-ul nu garantează că returnează adevărata locație a dispozitivului.		</p>
+		<p class="used" >În aplicație se va utiliza pentru preluarea datelor de la senzorii de localizare și emularea acestora.
+		</p>
+		<a href="https://www.w3.org/TR/screen-orientation/"><h4 class="API"> Screen Orientation API</h4></a>
+
+		<p>
+		API-ul Screen Orientation oferă abilitatea de a citi tipul de orientare a ecranului și unghiul, detectarea schimbării orientării ecranului și abilitatea să blocheze orientarea ecranului.			</p>
+		<p class="used">
+		API-ul va fi utilizat pentru emularea accelerometrului pentru detectarea coliziunilor și preluarea datelor de la senzori.
+		</p>
+		<a href="https://developers.google.com/maps/documentation/javascript/"> <h4 class="API"> Google Maps JavaScript API</h4> </a>
+			<p>
+		Google Maps este un serviciu de mapare pe web dezvolotat de Google. Oferă imagine din satelite, hărți stradale, vizualizări panoramice ȋn 360°(Street View),  condiții de trafic ȋn timp real (Google Traffic), și găsirea unei rute pentru traversa pe jos, cu mașina, cu bicicleta sau transport public. API-ul oferă posibilitatea de folosi acest serviciu prin JavaScript.		</p>
+		<p class="used">
+		În aplicație Google Maps va fi folosit pentru vizualizarea locației copiilor.
+		</p>
+		<a href="https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API"> <h4 class="API"> Notifications API</h4></a>
+			<p>
+		API-ul Notifications permite paginilor web să controleze afișarea notificațiilor de sistem utilizatorului, se pot afișa chiar dacă utilizatorului a schimbat tab-ul sau utilizează altă aplicație. API-ul este proiectat să fie compatibil cu sistemele de notificare existente pe mai multe platforme.		</p>
+		<p class="used">
+		API-ul va fi utilizat pentru transmiterea notificărilor.
+		</p>
+</section>
+
+<section typeof="sa:MaterialsAndMethods" id="arhitectura">
+<h1>Arhitectura</h1>
+<img src="Schema.png">
+					<p>
+					Aplicația va fi una single-page, adică, toate functionalitatile serviciului  vor fi oferinte intr-o singura pagina. În continuare vom descrie elementele aplicației:					</p>
+					
+					<section>
+						<ol>
+					<li>
+						<section typeof="sa:Abstract">
+							<h3 class="page">
+								Harta
+							</h3>
+							<p>
+							Harta va reprezenta obiectul principal al paginii. Aceaasta va fi responsive si isi va modifica marimea in functie de marimea dispozitivului, adica poate fi folosita usor si pe aplicatiile mobile. Utilizatorul are posibilitatea de a apasa pe un loc aleator pe harta si a pune un punct de interes care va face referire la pozitia copilului. Aceste puncte sunt setate astfel incat uitlizatorul sa poata fi anuntat atunci cand copii lor se departeaza fata de un obiect specificat precum un apartament sau o persoana. In momentul apasarii un marker va fi afisat pe harta iar in partea dreapta va aparea o noua casuta cu denumirea punctului de referinta (acesta se va alege automat si va fi denumit folosind literele alfabetului latin) precum si distanta acestui punct fata de pozitia copilului. De asemenea va aparea si un buton ce va permite renuntarea la punctul de referinta specificat anterior. 
+							</p>
+							<p>
+							Harta va folosi markere diferite pentru punctele de interes si copii. De asemenea se va permite stergerea tututor marker-elor, ascunderea acestora si reafisarea lor. 
+							</p>
+						<img src="map.png">
+						</section>
+					</li>
+					<li>
+						<section typeof="sa:Abstract">
+							<h3 class="page">
+								Cadrul de gestionare a setarilor
+							</h3>
+							<p>
+							Această sectiune  cuprinde urmatoarele fielduri :
+								<ul>
+									<li>
+									<section>
+									<img src="insert.png">
+										Introducere copil:
+										<p>
+										 un un field input de tip text ce va permite introducerea id (channel-ului primit in momentul inregistratii la serviciile oferite). Id-ul va fi introdus in acest field si trimis catre server prin apasarea butonului. Daca id-ul este valid un nou marker va aparea pe harta iar aceasta se va centraliza pe el.
+										</p>
+									</section>
+									</li>
+									<li>
+										Hide markers:
+										<p> 
+										acest buton va ascunde toate marker-ele setate
+										</p>
+									</li>
+									<li>
+										Show all markers:
+										<p> 
+										acest buton va reafisa marker-ele ascunde
+										</p>
+									</li>
+									<li>
+										Delete markers:
+										<p> acest buton va sterge toate marker-ele setate
+										</p>
+									</li>
+									<li>
+									<section>
+									<img src="pdi.png"
+										Zona de afisare a punctelor de interes:
+										<p>
+										Aceasta se va popula cu cate o casuta pentru fiecare puct de interes setat. Casuta va afisa numele marker-ului, distanta acestuia fata de copil si un buton ce va permite stergerea marker-ului. De asemenea butonul remove va sterge si casuta respectiva. In caz ca micutul se departeaza fata de punctele de interes peste distanta maxima admisa aceasta casuta se va inrosi si o notificare folosind api-ul de notificare de la Google va fi afisata.
+										</p>
+									</section>
+									</li>
+									<li>
+										Doua field-uri(una pentru coordonata x iar celalalt pentru coordonata y):
+										<p>
+										 aceste field-uri permit introducerea manuala a pozitiilor unui punct de interes. Acesta va fi setat apasant pe butonul "Add point of interest"
+										</p>
+									</li>
+									<li>
+										Setarea distantei maxime:
+										<p> 
+										acesta va contine un field sentru setarea distantei maxime permise a unui punct de interes fata de copil. Depasirea acestei distante va invoca afisarea de notificari (avertizari)
+										</p>
+									</li>
+									<li>
+										Documentation:
+										<p> 
+										un buton ce va permite afisarea documentatie aplicatiei
+										</p>
+									</li>
+									<li>
+										View nearby:
+										<p> 
+										un buton ce va permite afisarea copiilor ce au setat in fisa utilizatorului ca aceestia sa fie vizibili celorlalti utiilizatori
+										</p>
+									</li>
+									<li>
+										Api Documentation:
+										<p> 
+										un buton ce va permite afisarea documentatie api-ului oferit de aceasta aplicatie
+										</p>
+									</li>
+									<li>
+										Distanta catre cel mai apropiat punct:
+										<p> 
+										un field ce va afisa distanta catre cel mai apropiat punct de interes fata de copil
+										</p>
+									</li>
+									<li>
+										Distanta catre cea mai apropiata persoana:
+										<p> 
+										un field ce va afisa distanta catre cea mai apropiata persoana inregistrata in sistem fata de copil
+										</p>
+									</li>
+								</ul>
+								<section>
+								<img src="smallpg.png">
+								<p>
+								Design-ul este responsive, putant fi utilizat si pe telefon.
+								</p>
+								</section>
+						</section>
+					</li>
+				</ol>
+</section>
+<section typeof="sa:MaterialsAndMethods" id="modelaredate">
+<h1>Detalii de implementare</h1>
+	<h3>Modelarea datelor</h3>
+	<p>
+	Pentru stocarea datelor se va utiliza o structura din javascript, anume JSON, în felul următor:
+	<ul>
+		<li>
+		Se creaza o clasa principala ce va fi va contine un array de clase secundare, utilizatorii sistemului	
+		</li>
+		<li>
+		Clasele secundare au cate o denumire fiecare (este folosita la indentificarea unica a utilizatorului):
+		</li>
+		<li>
+		Clasele secundare au ca field-uri urmatoarele:
+		<ul>
+		<li>
+		name: care reprezeinta numele utilziatorului
+		</li>
+		<li>
+		Latitude: care reprezeinta longitudinea locatiei utilziatorului
+		</li>
+		<li>
+		longitude: care reprezeinta latitudinea locatiei utilziatorului
+		</li>
+		<li>
+		visible: care specifica daca utilizatorul va fi vizibil celorlalti utilizatori
+		</ul>
+		</li>
+		<li>
+		Acest JSON va putea fi modificat prin intermediul unui api construit pentru aplicatie		
+		</li>
+	</ul>
+	</p>
+	<h1>Use case-uri</h1>
+			<p>
+			La intrarea în site se vor accesa cookie-uri şi dacă se obţine date pentru email şi parolă care corespund celor din baza de date se logează utilizatorul şi se redirecţionează spre Homepage altfel spre pagina de Login.			</p>
+			<p>
+			La signup se verifică dacă existe câmpuri necompletate şi dacă parolele se potrivesc, dacă există câmpuri necompletate sau parolele nu se potrivesc se afişează un mesaj sau mesaje de eroare, altfel datele sunt verificate să nu fie introdusă deja în baza de date adresa de email, dacă este deja în baza de date se afişează un mesaj de eroare altfel se generează un id pentru utilizator şi se introduc datele acestuia în baza de date. 			
+			</p>
+			<p>
+			La cererea copiilor din jur verifică baza de date pentru copii din jur şi îi adaugă pe hartă pe cei ce sunt îndeajuns de aproape apoi afişează harta.			
+			</p>
+			<p>
+			Verificarea poziţiei copilului/copiilor se face prin accesarea Homeage-ului, unde se preiau datele despre setările senzorului se folosesc funcţiile din Geolocalizare şi Google Maps pentru a afişa o hartă cu poziţia copilului/copiilor şi poziţiile punctelor şi persoanele specificate de utilizator.
+			</p>
+						<p>
+						Adăugarea unui nou punct se face prin completarea formularului de pe panoul din dreapta.
+									</p>
+			</section>
+<section typeof="sa:MaterialsAndMethods" id="sarcini">
+<h1>Distribuire Sarcini</h1>
+<ol>
+	<li>
+		Iacob Andrei
+		<ul>
+		<li>Baza de date</li>
+		<li>Find kids</li>
+		<li>Settings</li>
+		<li>Geolocationation</li>
+		<li>CSS</li>
+		</ul>
+	</li>
+	<li>
+	Moisii Cosmin
+		<ul>
+		<li>Signup</li>
+		<li>Login</li>
+		<li>Set senzor</li>
+		<li>Notifications</li>
+		<li>Screen Orientation</li>
+		<li>Google Maps</li>
+		</ul>
+	</li>
+</ol>
+</section>
+
+<section typeof="sa:MaterialsAndMethods" id="planificare">
+<h1>Planificare</h1>
+	<ol>
+		<li>
+		Saptamana 10
+			<ul>
+				<li>familiarizarea cu framework-ul JavaScript</li>
+				<li>scheletul principal al aplicatiei</li>
+				<li>primele module: login si signup</li>
+			</ul>
+		</li>
+		<li>
+		Saptamana 11
+			<ul>
+					<li>simulare senzori</li>
+			</ul>
+		</li>
+		
+		<li>
+		Saptamana 12
+			<ul>
+					<li>interactiunea cu API-urile</li>
+					<li>gestiunea fisierelor de pe server</li>
+			</ul>
+
+		</li>
+
+		<li>
+		Saptamana 13
+			<ul>
+					<li>implementarea bazei de date</li>
+			</ul>
+
+		</li>
+		<li>
+		Saptamana 14
+			<ul>
+					<li>foi de stiluri</li>
+					<li>responsiveness</li>
+					<li>testare</li>
+			</ul>
+
+		</li>
+	</ol>
+</section>
+</article>
+<footer>
+      <p>
+        <a href="http://profs.info.uaic.ro/~busaco/teach/courses/web/">Tehnologii Web</a>
+        •
+		 <a href="http://profs.info.uaic.ro/~busaco/teach/courses/web/projects/xml-transform.php?pag=projects">Proiecte</a>    
+      </p>
+</footer>
+</body>
+</html>
